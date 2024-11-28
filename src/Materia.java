@@ -9,7 +9,6 @@ public class Materia {
 
     public Materia(String nombreMateria) {
         this.nombreMateria = nombreMateria;
-        this.calificacion = calificacion;
     }
 
     public String getNombreMateria() {
@@ -26,5 +25,9 @@ public class Materia {
 
     public void setCalificacion(double calificacion) {
         this.calificacion = calificacion;
+    }
+    @Override
+    public String toString() {
+        return "Materia: " + nombreMateria + ", Calificación: " + calificacion;
     }
 }

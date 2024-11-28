@@ -1,27 +1,21 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Estudiante extends Materia{
+public class Estudiante{
     private String nombre;
     private int edad;
-    private List<Materia> calificaciones = new ArrayList<>();
+    private ArrayList<Materia> calificaciones;
 
-    public Estudiante(String nombreMateria, double calificacion, String nombre, List<Materia> calificaciones, int edad) {
-        super(nombreMateria, calificacion);
-        this.nombre = nombre;
-        this.calificaciones = new ArrayList<>();;
-        this.edad = edad;
-    }
-
-    public Estudiante(String nombre, String edad) {
+    public Estudiante(String nombre, int edad) {
         this.nombre = nombre;
         this.edad = edad;
+        this.calificaciones = new ArrayList<>();
     }
 
     public Estudiante() {
-        this.nombre = "";
-        this.edad = 0;
-        this.calificaciones = new ArrayList<>();;
+        this.nombre = nombre;
+        this.calificaciones = calificaciones;
+        this.edad = edad;
     }
 
     public String getNombre() {
@@ -45,11 +39,18 @@ public class Estudiante extends Materia{
     }
 
     public void setCalificaciones(List<Materia> calificaciones) {
-        this.calificaciones = calificaciones;
+        this.calificaciones = (ArrayList<Materia>) calificaciones;
     }
 
-    public void agregarCalificacion(Materia calificacion){
-        calificaciones.add(calificacion);
+    public void agregarCalificacion(String materia, double calificacion){
+        try {
+            if (calificacion < 0 || calificacion > 10) {
+                throw new CalificacionInvalidaException("La calificación debe estar entre 0 y 10.");
+            }
+            calificaciones.add(new Materia(materia, calificacion));
+        } catch (CalificacionInvalidaException e) {
+            System.out.println("Error al agregar calificación: " + e.getMessage());
+        }
 
     }
     public double calculaPromedio(){
@@ -59,18 +60,19 @@ public class Estudiante extends Materia{
             suma += calificacion.getCalificacion();
             count ++;
         }
-        return suma / count;
+        return (count > 0) ? suma / count : 0;
     }
 
     public void displayInfo(){
-        System.out.println("Nombre del alumno " + nombre);
-        System.out.println("Edad del alumno " + edad);
-        for (Materia calificacion : calificaciones){
-            System.out.println("| Materia: "+ calificacion.getNombreMateria() + "\t| Calificacion "+ calificacion.getCalificacion() + "\t|");
+        System.out.println("Nombre del alumno: " + nombre);
+        System.out.println("Edad del alumno: " + edad);
+        if (calificaciones.isEmpty()) {
+            System.out.println("Sin calificaciones registradas.");
+        } else {
+            for (Materia calificacion : calificaciones) {
+                System.out.println("| Materia: " + calificacion.getNombreMateria() + "\t| Calificación: " + calificacion.getCalificacion());
+            }
         }
-        double promedio = calculaPromedio();
-        System.out.println("Promedio: " + promedio);
-        //Problemas
-        //No muestra nombre ni edad
+        System.out.println("Promedio: " + calculaPromedio());
     }
 }
